@@ -26,6 +26,7 @@ public class AdminLogin extends HttpServlet{
 			Admin admin = dao.findByEmail(adminmail);
 			if(admin!=null) {
 				if(admin.getAdminpassword().equals(adminpassword)) {
+					req.setAttribute("movies", dao.getAllMovies());
 					RequestDispatcher dispatcher = req.getRequestDispatcher("home.jsp");
 					dispatcher.include(req, resp);
 				}
