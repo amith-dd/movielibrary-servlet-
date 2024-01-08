@@ -89,6 +89,14 @@ public class Dao {
 
 	}
 	
+	public int deleteMovie(int id) throws ClassNotFoundException, SQLException {
+		Connection conn = getConnection();
+		PreparedStatement pst = conn.prepareStatement("delete from movie where movieid = ?");
+		pst.setInt(1, id);
+		return pst.executeUpdate();
+		
+	}
+	
 	
 	
 	

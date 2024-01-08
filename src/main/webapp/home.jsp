@@ -25,6 +25,8 @@
 	<th>genre</th>
 	<th>language</th>
 	<th>image</th>
+	<th>delete</th>
+	<th>edit</th>
 	</tr>
 	
 	<% for(Movie m : movies){ %>
@@ -41,6 +43,8 @@
 	<td><img  src="data:image/jpeg;base64, <%=base64image %>" height="100px" width="100px" > </td>
 	
 	
+	<td><a href="deletemovie?id=<%=m.getMovieid()%>">delete</a> </td>
+	<td><a href="editmovie?id=<%=m.getMovieid()%>">edit</a> </td>
 	</tr>
 	
 	<% } %>
