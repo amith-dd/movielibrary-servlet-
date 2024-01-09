@@ -97,6 +97,41 @@ public class Dao {
 		
 	}
 	
+	public Movie findMovieById(int movieId) throws ClassNotFoundException, SQLException {
+		Connection conn = getConnection();
+		PreparedStatement pst = conn.prepareStatement("select * from movie where movieid = ?");
+		pst.setInt(1, movieId);
+		ResultSet rs = pst.executeQuery();
+		rs.next();
+		Movie m = new Movie();
+		m.setMovieid(rs.getInt(1));
+		m.setMoviename(rs.getString(2));
+		m.setMovieprice(rs.getDouble(3));
+		m.setMovierating(rs.getDouble(4));
+		m.setMoviegenre(rs.getString(5));
+		m.setMovielanguage(rs.getString(6));
+		Blob b = rs.getBlob(7);
+		byte[] img = b.getBytes(1, (int)b.length());
+		m.setMovieimage(img);
+		return m;
+	}
+	
+	public int updateMovie(Movie movie) throws ClassNotFoundException, SQLException {
+		Connection conn = getConnection();
+		PreparedStatement pst = conn.prepareStatement("update movie set moviename=?, movieprice=?,movierating=?,moviegenre=?,movielanguage=?,movieimage=? where movieid=?");
+		
+		pst.setInt(7, movie.getMovieid());
+		pst.setString(1, movie.getMoviename());
+		pst.setDouble(2, movie.getMovieprice());
+		pst.setDouble(3, movie.getMovierating());
+		pst.setString(4, movie.getMoviegenre());
+		pst.setString(5, movie.getMovielanguage());
+		Blob imageBlob = new SerialBlob(movie.getMovieimage());
+		pst.setBlob(6, imageBlob);
+		
+		return pst.executeUpdate();
+	}
+	
 	
 	
 	

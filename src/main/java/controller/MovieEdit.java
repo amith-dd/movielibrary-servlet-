@@ -11,18 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.Dao;
-@WebServlet("/deletemovie")
-public class DeleteMovie extends HttpServlet {
+import dto.Movie;
+
+@WebServlet("/editmovie")
+public class MovieEdit extends HttpServlet{
 	
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+			
 		int id = Integer.parseInt(req.getParameter("id"));
 		Dao dao = new Dao();
 		try {
-			dao.deleteMovie(id);
-			req.setAttribute("movies", dao.getAllMovies());
-			RequestDispatcher dispatcher = req.getRequestDispatcher("home.jsp");
+			Movie m = dao.findMovieById(id);
+			req.setAttribute("movie", m);
+			RequestDispatcher dispatcher = req.getRequestDispatcher("edit.jsp");
 			dispatcher.include(req, resp);
 			
 			
