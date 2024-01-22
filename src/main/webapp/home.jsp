@@ -52,7 +52,9 @@
 	
 	</table>
 
-	<a href="addmovie.jsp">Add_Movie</a>
+	<a href="addmovie.jsp">Add_Movie</a><br>
+	
+	<a href="logout">LogOut</a>
 	
 </body>
 </html>

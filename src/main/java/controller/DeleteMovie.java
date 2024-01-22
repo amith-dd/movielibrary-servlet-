@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.Dao;
 @WebServlet("/deletemovie")
@@ -20,10 +21,21 @@ public class DeleteMovie extends HttpServlet {
 		int id = Integer.parseInt(req.getParameter("id"));
 		Dao dao = new Dao();
 		try {
-			dao.deleteMovie(id);
-			req.setAttribute("movies", dao.getAllMovies());
-			RequestDispatcher dispatcher = req.getRequestDispatcher("home.jsp");
-			dispatcher.include(req, resp);
+			
+			HttpSession session = req.getSession();
+			String adminname = (String)session.getAttribute("adminname");
+			if(adminname!=null) {
+				dao.deleteMovie(id);
+				req.setAttribute("movies", dao.getAllMovies());
+				RequestDispatcher dispatcher = req.getRequestDispatcher("home.jsp");
+				dispatcher.include(req, resp);
+			}
+			else {
+				req.setAttribute("message", "access denied, admin login required");
+				RequestDispatcher dispatcher = req.getRequestDispatcher("alogin.jsp");
+				dispatcher.include(req, resp);
+			}
+			
 			
 			
 		} catch (ClassNotFoundException e) {
